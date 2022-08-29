@@ -1,26 +1,34 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios'
 
 const App = () => {
-  const [text, setText] = useState("11");
-  const [edit, setEdit] = useState(false);
 
-  let content = <div>{text}<button onClick={() => setEdit(true)}>수정</button></div>
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    // axios({
+    //   method:'GET',
+    //   url:'https://jsonplaceholder.typicode.com/photos' // 구글 jsonplaceholder 참조
+    // }).then(response => setPosts(response.data))
 
-  if(edit) {
-    content = (
-    <div className="App">
-      <input type="text"
-            value={text}
-            onChange={(e) => {
-                setText(e.target.value);
-            }}/>
-      <button onClick={() => {setEdit(false)}}>수정</button>
-    </div>);
-  }
+    axios.get('https://jsonplaceholder.typicode.com/photos')
+        .then(response => setPosts(response.data))
+  });
 
   return (
     <>
-      {content}
+      안녕하세요. 
+      <ul>
+        {posts.map(p => {
+          if(p.id <= 20) {
+            return (
+              <li key={p.id}>
+                <div>{p.id}. {p.title}</div>
+                <div><img src={p.thumbnailUrl}></img></div>
+              </li>
+            )
+          }
+        })}
+      </ul>
     </>
   );
 }

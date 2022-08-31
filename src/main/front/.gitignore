@@ -10,6 +10,7 @@
 
 # production
 /build
+/static
 /static/static
 
 # misc
